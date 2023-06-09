@@ -1,0 +1,37 @@
+.search-bar-container {
+    grid-row: 1;
+    grid-column: 1 / span 2;
+    display: flex;
+    align-items: center;
+}
+
+.search-bar {
+    margin: 1.95rem auto;
+    width: 80%;
+    height: 2.6rem;
+    padding-left:1.95rem;
+    
+}
+
+#search-input {
+    width: 50%;
+    font-size: 1.5rem;
+    border: 0.125rem solid rgba(206, 222, 239, 0.5);
+    padding: 0.25rem 1rem;
+    border-radius: 1.3rem;
+    outline:none;
+}
+
+#submit-search {
+    position:relative;
+    right:2.5rem;
+    background-color:rgba(255, 255, 255, 0);
+    background-image: url('../../assets/search-icon-2.png');
+    background-size: cover;
+    height: 1.9rem;
+    width: 1.95rem;
+    vertical-align: text-bottom;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}
