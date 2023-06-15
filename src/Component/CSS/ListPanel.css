@@ -4,6 +4,7 @@
     width:100%;
     border-radius: 1rem;
     max-width:40rem;
+    max-height: calc((100vh / 6 * 5) - 5rem);
 }
 
 @media only screen and (max-width: 860px) {

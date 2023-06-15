@@ -2,7 +2,11 @@ import Tracklist from './Tracklist';
 import './CSS/Playlist.css';
 import './CSS/ListPanel.css';
 
-function Playlist({ tracks, title, titleChangeHandler, removeItemHandler, saveHandler }) {
+function Playlist({ tracks, title, setTitle, removeItemHandler, saveHandler }) {
+    function titleChangeHandler(e) {
+        setTitle(e.target.value);
+    }
+    
     return (
         <div className='playlist list-panel'>
             <input 
