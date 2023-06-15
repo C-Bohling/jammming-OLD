@@ -20,7 +20,7 @@ function App() {
             setPlaylistTracks(newPlaylistTracks)
             Cookies.storePlaylistTrackIDs(newPlaylistTracks.map((track) => track.id))
         } else {
-            console.info(`${newTrack.title} is already in the list`);
+            alert(`"${newTrack.title}" by ${newTrack.artist} is already in the list`);
         }
     }
 
@@ -28,12 +28,19 @@ function App() {
         const newPlaylistTracks = playlistTracks.filter(value => {return value !== track});
         setPlaylistTracks(newPlaylistTracks);
         Cookies.storePlaylistTrackIDs(newPlaylistTracks.map((track) => track.id));
-        console.log('removed');
     }
 
     function clearPlaylist() {
         setPlaylistTracks([]);
         Cookies.storePlaylistTrackIDs([]);
+    }
+
+    function handleKeyPress(e) {
+        const searchInput = document.getElementById('search-input');
+        const activeElement = document.activeElement;
+        if ((e.key === 'Enter') && (searchInput === activeElement)) {
+            search(searchInput.value, 20);
+        }
     }
 
     async function getInitialPlaylistTracks() {
@@ -48,13 +55,13 @@ function App() {
         console.log('Initializing...')
         await Spotify.initialize();
         await getInitialPlaylistTracks();
+        document.onkeydown = handleKeyPress;
         setInitialized(true);
-        console.log('Initialized!')
+        console.log('Initialized!');
     }
 
     async function savePlaylist() {
         const uris = playlistTracks.map( track => track.uri);
-        console.log(uris);
         // call the spotify api request function here.
         if (title) {
             const success = Spotify.createPlaylist(title, uris);
@@ -70,8 +77,9 @@ function App() {
         if (term && maxTracks) {
             const tracks = await Spotify.search(term, maxTracks);
             setSearchResultsTracks(tracks);
+            setSearchBarValue('');
         } else {
-            console.log('empty search');
+            console.log(`invalid search: term=${term} maxTracks=${maxTracks}`);
         }
     } 
 

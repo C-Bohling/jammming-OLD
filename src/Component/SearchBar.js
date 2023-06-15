@@ -4,12 +4,13 @@ function SearchBar({submit, setValue, value}) {
     function submitSearchQuery() {
         const inputValue = document.getElementById('search-input').value
         if (inputValue.length > 2) {
-            submit(document.getElementById('search-input').value, 20);
+            submit(inputValue, 20);
         }
     }
 
     function changeHandler(e) {
-        console.log(e.target.value)
+        console.log(e.target.value);
+        console.log(setValue);
         setValue(e.target.value);
     }
 
