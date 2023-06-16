@@ -29,13 +29,6 @@ const Cookies = {
         return cookies[key] ? cookies[key] : false;
     },
 
-    getOrCreate(key, defaultValue) {
-        const cookie = this.get(key);
-        if (cookie) return cookie
-        else this.set(key, defaultValue);
-        return defaultValue;
-    },
-
     getPlaylistTrackIDs() {
         const cookies = this.getCookies();
         if (cookies.playlistTrackIDs) {
