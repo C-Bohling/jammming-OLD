@@ -1,0 +1,36 @@
+.cookie-div {
+    position:absolute;
+    bottom:0px;
+    width: 100%;
+    background-color: rgba(255, 166, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 9;
+    text-align: left;
+    padding: 1.5rem 3rem;
+    display: flex;
+    gap:2rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cookie-div h2 {
+    margin: 0;
+}
+
+.cookie-div p {
+    font-size: 1.125rem;
+    margin: 1rem 0 0.5rem;
+}
+
+.cookie-options {
+    width:max-content;
+}
+
+.cookie-button {
+    /* vertical-align: middle; */
+    width:7rem;
+    height:2rem;
+    margin: 0.5rem 2rem;
+    font-size: 1.125rem;
+    /* display:inline; */
+}

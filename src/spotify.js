@@ -15,15 +15,20 @@ const Spotify = {
             const savedAccessToken = Cookies.get('accessToken');
             const urlAccessToken = hashParams.access_token;
             if ((savedAccessToken === urlAccessToken) && expiresTime ) {    // load while authenticated and initialized.
-                console.log('Breakpoint 1')
+                // console.log('Breakpoint 1')
                 // debugger;
                 this.setTokenExpireTimeout(expiresTime);                         
             } else if (savedAccessToken === urlAccessToken) {               // load with expired token
-                console.log('Breakpoint 2')
+                // console.log('Breakpoint 2')
                 // debugger;
                 this.authenticate()
+            } else if (!savedAccessToken) {                                 // There is no cookie called 'accessToken'
+                if (Cookies.getCookiesAllowed()) {
+                    Cookies.set('accessToken', urlAccessToken, 1/24);
+                    this.authenticate();
+                }
             } else {                                                        // just authenticated
-                console.log('Breakpoint 3')
+                // console.log('Breakpoint 3')
                 // debugger;
                 Cookies.set('accessToken', urlAccessToken, 1/24);
                 expiresTime = pageLoadTime + (parseInt(hashParams.expires_in)) * 1000;
@@ -35,7 +40,7 @@ const Spotify = {
             accessToken = urlAccessToken;
             this.getUserID();
         } else {                                                            // no authentication in url
-            console.log('Breakpoint 4')
+            // console.log('Breakpoint 4')
             // debugger;
             this.authenticate();
         }
@@ -194,7 +199,7 @@ const Spotify = {
                     uris: trackURIs
                 })
             };
-            console.warn(populateOptions);
+            // console.warn(populateOptions);
 
             const populateResponse = await fetch(populateURL, populateOptions);
             const populateJson = await populateResponse.json();

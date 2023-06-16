@@ -9,8 +9,8 @@ function SearchBar({submit, setValue, value}) {
     }
 
     function changeHandler(e) {
-        console.log(e.target.value);
-        console.log(setValue);
+        // console.log(e.target.value);
+        // console.log(setValue);
         setValue(e.target.value);
     }
 

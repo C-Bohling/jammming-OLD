@@ -6,22 +6,25 @@ import Loading from './Loading';
 import Playlist from './Playlist';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
+import CookieNotice from './CookieNotice';
 
 function App() {
     const [searchResultsTracks, setSearchResultsTracks] = useState([]);
     const [playlistTracks, setPlaylistTracks] = useState([]);
-    const [title, setTitle] = useState('');
+    const [title, setTitle] = useState(Cookies.get('playlistTitle') || '');
     const [initialized, setInitialized] = useState(false);
     const [searchBarValue, setSearchBarValue] = useState('');
+    const [displayCookieNotice, setDisplayCookieNotice] = useState(!Cookies.getCookiesAllowed());
 
     function addToPlaylist(newTrack) {
         if (!playlistTracks.includes(newTrack)) {
             const newPlaylistTracks = [...playlistTracks, newTrack];
             setPlaylistTracks(newPlaylistTracks)
             Cookies.storePlaylistTrackIDs(newPlaylistTracks.map((track) => track.id))
-        } else {
-            alert(`"${newTrack.title}" by ${newTrack.artist} is already in the list`);
-        }
+        } 
+        // else {
+        //     alert(`"${newTrack.title}" by ${newTrack.artist} is already in the list`);
+        // }
     }
 
     function removeFromPlaylist(track) {
@@ -41,6 +44,20 @@ function App() {
         if ((e.key === 'Enter') && (searchInput === activeElement)) {
             search(searchInput.value, 20);
         }
+    }
+
+    function enableCookies() {
+        Cookies.set('cookiesAllowed', 'true', 365);
+        setDisplayCookieNotice(false)
+    }
+
+    function declineCookies() {
+        setDisplayCookieNotice(false)
+    }
+
+    function setPlaylistTitle(title) {
+        Cookies.set('playlistTitle', title)
+        setTitle(title);
     }
 
     async function getInitialPlaylistTracks() {
@@ -79,12 +96,14 @@ function App() {
             setSearchResultsTracks(tracks);
             setSearchBarValue('');
         } else {
-            console.log(`invalid search: term=${term} maxTracks=${maxTracks}`);
+            console.error(`invalid search: term=${term} maxTracks=${maxTracks}`);
         }
     } 
 
     if (!initialized) {
+        const start = Date.now()
         initialize();
+        console.log(`Completed initialization in ${Date.now() - start} ms.`)
     }
 
     return (
@@ -104,11 +123,13 @@ function App() {
                 <Playlist 
                     tracks={playlistTracks} 
                     title={title} 
-                    setTitle={setTitle}
+                    setTitle={setPlaylistTitle}
                     removeItemHandler={removeFromPlaylist} 
                     saveHandler={savePlaylist} />
             </div>
+            {displayCookieNotice && <div><CookieNotice okPressHandler={enableCookies} declinePressHandler={declineCookies} /></div>}
         </div>
+        
     );
 }
 

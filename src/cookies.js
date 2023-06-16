@@ -1,13 +1,15 @@
 const Cookies = {
     storePlaylistTrackIDs(IDs) {
-        console.log('IDs = ' + IDs);
+        // console.log('IDs = ' + IDs);
         this.set('playlistTrackIDs', IDs.join(','), 30)
         // document.cookie = `playlistTrackIDs=${IDs.join(',')};SameSite=Lax;Expires${(new Date(Date.now()+ 86400000)).toUTCString()}`;
     },
 
     set(key, value, expDays=1) {
-        const expTime = (new Date(Date.now() + 86400000 * expDays)).toUTCString();
-        document.cookie = `${key}=${value};SameSite=Lax;Expires=${expTime}`;
+        if ((this.getCookiesAllowed()) || (key === 'cookiesAllowed')) {
+            const expTime = (new Date(Date.now() + 86400000 * expDays)).toUTCString();
+            document.cookie = `${key}=${value};SameSite=Lax;Expires=${expTime}`;            
+        }
     },
     
     getCookies() {
@@ -46,7 +48,11 @@ const Cookies = {
 
     delete(key) {
         this.set(`${key}=; expires=Thu, 01 Jan 1970 00:00:00 UTC;`);
-    }
+    },
+
+    getCookiesAllowed() {
+        return this.get('cookiesAllowed') ? true : false;
+    } 
 };
 
 export default Cookies;
